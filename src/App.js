@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import DisplayCountry from './DisplayCountry';
 import DisplayCountryDetails from './DisplayCountryDetails';
-// import DisplayPagedCountries from './DisplayPagedCountries';
 
 export default function App() {
 
@@ -47,8 +46,6 @@ export default function App() {
     })
   }
   const displayPagedCountries = () => {
-    //  alert('hello');
-    // getAllCountries();
     console.log(countries);
      console.log('countries', countries);
      console.log('pageNum', pageNum);
@@ -56,7 +53,6 @@ export default function App() {
       for(let i = (pageNum - 1) * 20; i < ((pageNum - 1)* 20) + 20; i++){
         displayedCountries.push(countries[i]);
       }
-      // console.log('displayed paged countries', displayedCountries);
       displayedCountriesTemp = displayedCountries.map((country)=>{
         if(country == countryName){
           currentCountry = 'selection currentCountry'
@@ -81,7 +77,6 @@ export default function App() {
       }
     }).then(result=>result.json())
     .then(result=>{
-      // alert('result', result);
       setCountryName(result[0].name.common);
       setOfficialName(result[0].name.official);
       setCapital(result[0].capital);
@@ -115,7 +110,6 @@ export default function App() {
         <a className = {currentPage} href="#" onClick={(e)=>{changePageNum(e,number)}}>{number}</a>
       );
     })
-    // console.log('all page numbers',allPageNumbers);
     return allPageNumbers;
   }
 
@@ -123,14 +117,6 @@ export default function App() {
     e.preventDefault();
     setPageNum(number);
   }
-
-
-/*  countryCurrencies = () => {
-    for (const [key, value] of Object.entries(currencies)) {
-        <li>Currency Name: {value.name} {value.symbol}</li>
-    }
-  }*/
-  
   
   useEffect(()=>{
       getAllCountries();
