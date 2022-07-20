@@ -25,6 +25,72 @@ export default function App() {
   let displayedCountriesTemp;
   let currentCountry;
   let currentPage;
+
+  const getAllCountries = () => {
+    fetch("https://restcountries.com/v3.1/all", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(result=>result.json())
+    .then(result=>{
+      allCountries = result.map((item)=>{
+        return item.name.common;
+      });
+      allCountries.sort();
+      setCountries(allCountries);
+      console.log('finished fetching countries');
+      console.log('after fetching - countries val', countries); 
+    });
+  }
+  const displayPagedCountries = () => {
+    console.log(countries);
+     console.log('countries', countries);
+     console.log('pageNum', pageNum);
+     displayedCountries = [];
+      for(let i = (pageNum - 1) * 20; i < ((pageNum - 1)* 20) + 20; i++){
+        displayedCountries.push(countries[i]);
+      }
+      displayedCountriesTemp = displayedCountries.map((country)=>{
+        if(country === countryName){
+          currentCountry = 'selection currentCountry'
+        } else {
+          currentCountry = '';
+        }
+        return (
+          <li><button className = {currentCountry} onClick={(e)=>{getCountryDetails(e,country)}}>{country}</button></li>
+        )
+      })
+      setDisplayedCountriesInPageNumber(displayedCountriesTemp);
+      // console.log('displayPagedCountries', displayedCountriesInPageNumber);
+      return displayedCountriesInPageNumber;
+    } 
+
+  const getCountryDetails = (e,country) => {
+    e.preventDefault();
+    fetch(`https://restcountries.com/v3.1/name/${country}`,{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(result=>result.json())
+    .then(result=>{
+      setCountryName(result[0].name.common);
+      setOfficialName(result[0].name.official);
+      setCapital(result[0].capital);
+      setFlag(result[0].flags.png);
+      setPopulation(result[0].population);
+      setContinents(result[0].continents.map((elem)=>{
+        return elem;
+      }));
+      if(result[0].coatOfArms.png !== undefined){
+        setCoatOfArms(result[0].coatOfArms.png);
+      } else {
+        setCoatOfArms('https://dummyimage.com/80x74/f759d5/26535e.png&text=Coat+Of+Arms');
+      }
+      setCurrencies(Object.values(result[0].currencies));
+    })
+  }
   
   const displayPageNumbers = () => {
     pageNumberCount = Math.ceil(countries.length) / 20;
@@ -51,73 +117,9 @@ export default function App() {
   }
   
   useEffect(()=>{
-    const getAllCountries = () => {
-      fetch("https://restcountries.com/v3.1/all", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(result=>result.json())
-      .then(result=>{
-        allCountries = result.map((item)=>{
-          return item.name.common;
-        });
-        allCountries.sort();
-        setCountries(allCountries);
-        console.log('finished fetching countries');
-        console.log('after fetching - countries val', countries); 
-      });
-    }
-    const displayPagedCountries = () => {
-      console.log(countries);
-       console.log('countries', countries);
-       console.log('pageNum', pageNum);
-       displayedCountries = [];
-        for(let i = (pageNum - 1) * 20; i < ((pageNum - 1)* 20) + 20; i++){
-          displayedCountries.push(countries[i]);
-        }
-        displayedCountriesTemp = displayedCountries.map((country)=>{
-          if(country === countryName){
-            currentCountry = 'selection currentCountry'
-          } else {
-            currentCountry = '';
-          }
-          return (
-            <li><button className = {currentCountry} onClick={(e)=>{getCountryDetails(e,country)}}>{country}</button></li>
-          )
-        })
-        setDisplayedCountriesInPageNumber(displayedCountriesTemp);
-        // console.log('displayPagedCountries', displayedCountriesInPageNumber);
-        return displayedCountriesInPageNumber;
-      } 
-  
-    const getCountryDetails = (e,country) => {
-      e.preventDefault();
-      fetch(`https://restcountries.com/v3.1/name/${country}`,{
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(result=>result.json())
-      .then(result=>{
-        setCountryName(result[0].name.common);
-        setOfficialName(result[0].name.official);
-        setCapital(result[0].capital);
-        setFlag(result[0].flags.png);
-        setPopulation(result[0].population);
-        setContinents(result[0].continents.map((elem)=>{
-          return elem;
-        }));
-        if(result[0].coatOfArms.png !== undefined){
-          setCoatOfArms(result[0].coatOfArms.png);
-        } else {
-          setCoatOfArms('https://dummyimage.com/80x74/f759d5/26535e.png&text=Coat+Of+Arms');
-        }
-        setCurrencies(Object.values(result[0].currencies));
-      })
-    }
-    getAllCountries();
-    displayPagedCountries();
+      getAllCountries();
+      displayPagedCountries();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum, countries]);
 
   return (
