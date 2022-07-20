@@ -6,7 +6,7 @@ export default function DisplayCountryDetails(prop) {
       return <li>{currency.name}({currency.symbol})</li>
     });
 
-  if(prop.officialName != '') {
+  if(prop.officialName !== '') {
     return (
       <div className="display-country-details">
         <h2>Country Details</h2>

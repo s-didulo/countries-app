@@ -15,10 +15,8 @@ export default function App() {
   let [coatOfArms, setCoatOfArms] = useState('');
   let [pageNum, setPageNum] = useState(1);
   let allCountries;
-  let countryCurrency;
   let pageNumberCount;
 
-  let currentPageNumber;
   let pageNumbers = [];
   let allPageNumbers = [];
 
@@ -54,7 +52,7 @@ export default function App() {
         displayedCountries.push(countries[i]);
       }
       displayedCountriesTemp = displayedCountries.map((country)=>{
-        if(country == countryName){
+        if(country === countryName){
           currentCountry = 'selection currentCountry'
         } else {
           currentCountry = '';
@@ -85,7 +83,7 @@ export default function App() {
       setContinents(result[0].continents.map((elem)=>{
         return elem;
       }));
-      if(result[0].coatOfArms.png != undefined){
+      if(result[0].coatOfArms.png !== undefined){
         setCoatOfArms(result[0].coatOfArms.png);
       } else {
         setCoatOfArms('https://dummyimage.com/80x74/f759d5/26535e.png&text=Coat+Of+Arms');
@@ -101,7 +99,7 @@ export default function App() {
     }
     
     allPageNumbers = pageNumbers.map((number)=> {
-      if(number == pageNum) {
+      if(number === pageNum) {
         currentPage = 'selection';
       } else {
         currentPage = '';
