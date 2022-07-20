@@ -30,7 +30,7 @@
 }
 
 .countryList {
-    width: 200px;
+    width: 220px;
 }
 
 .countryDetails {
@@ -144,4 +144,10 @@
 
 .selection.currentCountry {
     font-weight: bold;
+}
+
+.App button {
+    background-color: transparent;
+    border: 0px;
+    cursor: pointer;
 }

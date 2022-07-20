@@ -58,7 +58,7 @@ export default function App() {
           currentCountry = '';
         }
         return (
-          <li><a className = {currentCountry} href="" onClick={(e)=>{getCountryDetails(e,country)}}>{country}</a></li>
+          <li><button className = {currentCountry} onClick={(e)=>{getCountryDetails(e,country)}}>{country}</button></li>
         )
       })
       setDisplayedCountriesInPageNumber(displayedCountriesTemp);
@@ -105,7 +105,7 @@ export default function App() {
         currentPage = '';
       }
       return (
-        <a className = {currentPage} href="#" onClick={(e)=>{changePageNum(e,number)}}>{number}</a>
+        <button className = {currentPage} onClick={(e)=>{changePageNum(e,number)}}>{number}</button>
       );
     })
     return allPageNumbers;
