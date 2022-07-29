@@ -23,7 +23,6 @@ export default function App() {
   let [displayedCountriesInPageNumber,setDisplayedCountriesInPageNumber] = useState([]);
   let displayedCountries;
   let displayedCountriesTemp;
-  let currentCountry;
   let currentPage;
 
   const getAllCountries = () => {
@@ -44,6 +43,7 @@ export default function App() {
     });
   }
   const displayPagedCountries = () => {
+    let currentCountry = '';
     console.log(countries);
      console.log('countries', countries);
      console.log('pageNum', pageNum);
@@ -53,17 +53,18 @@ export default function App() {
       }
       displayedCountriesTemp = displayedCountries.map((country)=>{
         if(country === countryName){
-          currentCountry = 'selection currentCountry'
+          currentCountry = 'selection currentCountry';
+          console.log('country name set', currentCountry);
         } else {
           currentCountry = '';
         }
         return (
-          <li><button className = {currentCountry} onClick={(e)=>{getCountryDetails(e,country)}}>{country}</button></li>
+          <li><button className={currentCountry} onClick={(e)=>{getCountryDetails(e,country)}}>{country}</button></li>
         )
       })
       setDisplayedCountriesInPageNumber(displayedCountriesTemp);
       // console.log('displayPagedCountries', displayedCountriesInPageNumber);
-      return displayedCountriesInPageNumber;
+      // return displayedCountriesInPageNumber;
     } 
 
   const getCountryDetails = (e,country) => {
@@ -105,7 +106,7 @@ export default function App() {
         currentPage = '';
       }
       return (
-        <button className = {currentPage} onClick={(e)=>{changePageNum(e,number)}}>{number}</button>
+        <button className={currentPage} onClick={(e)=>{changePageNum(e,number)}}>{number}</button>
       );
     })
     return allPageNumbers;
@@ -115,10 +116,14 @@ export default function App() {
     e.preventDefault();
     setPageNum(number);
   }
-  
+
   useEffect(()=>{
-      getAllCountries();
-      displayPagedCountries();
+    getAllCountries();
+  }, [])
+
+  useEffect(()=>{
+    // getAllCountries();
+    displayPagedCountries();
         // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum, countries]);
 
@@ -134,7 +139,7 @@ export default function App() {
         <div className="pageNumbers">{displayPageNumbers()}</div>      
       </div>
       <div className="countryDetails">
-        <DisplayCountry name={countryName}  flag={flag}/>
+        <DisplayCountry name={countryName} flag={flag}/>
         <DisplayCountryDetails officialName={officialName} population={population} continents={continents} capital={capital} currencies={currencies} coatOfArms={coatOfArms}/>
       </div> 
     </div>
