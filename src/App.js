@@ -119,6 +119,7 @@ export default function App() {
 
   useEffect(()=>{
     getAllCountries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(()=>{
