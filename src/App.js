@@ -26,6 +26,7 @@ export default function App() {
   let currentPage;
 
   const getAllCountries = () => {
+    console.log('in Get All Countries');
     fetch("https://restcountries.com/v3.1/all", {
       method: "GET",
       headers: {
@@ -43,10 +44,8 @@ export default function App() {
     });
   }
   const displayPagedCountries = () => {
+    console.log('in display paged countries');
     let currentCountry = '';
-    console.log(countries);
-     console.log('countries', countries);
-     console.log('pageNum', pageNum);
      displayedCountries = [];
       for(let i = (pageNum - 1) * 20; i < ((pageNum - 1)* 20) + 20; i++){
         displayedCountries.push(countries[i]);
@@ -54,7 +53,6 @@ export default function App() {
       displayedCountriesTemp = displayedCountries.map((country)=>{
         if(country === countryName){
           currentCountry = 'selection currentCountry';
-          console.log('country name set', currentCountry);
         } else {
           currentCountry = '';
         }
@@ -63,12 +61,11 @@ export default function App() {
         )
       })
       setDisplayedCountriesInPageNumber(displayedCountriesTemp);
-      // console.log('displayPagedCountries', displayedCountriesInPageNumber);
-      // return displayedCountriesInPageNumber;
     } 
 
   const getCountryDetails = (e,country) => {
     e.preventDefault();
+   console.log(country);
     fetch(`https://restcountries.com/v3.1/name/${country}`,{
       method: "GET",
       headers: {
@@ -120,13 +117,12 @@ export default function App() {
   useEffect(()=>{
     getAllCountries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(()=>{
-    // getAllCountries();
     displayPagedCountries();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNum, countries]);
+  }, [pageNum, countries, countryName]);
 
   return (
     <div className="App">
